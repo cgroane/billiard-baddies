@@ -1,6 +1,7 @@
 import { PoolTableAutoFillData, useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
 import React, { useState, useRef, useEffect, SyntheticEvent } from 'react'
 import styled from 'styled-components'
+import { useCallback } from 'react';
  
 export enum Rates  {
   'hourly' = 'Hourly',
@@ -13,34 +14,19 @@ interface NewTableData extends PoolTableAutoFillData {
   rate: Rates;
 }
 const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
-  const [poolTableFormData, setPoolTableFormData] = useState<NewTableData>({} as NewTableData)
+  // const [poolTableFormData, setPoolTableFormData] = useState<NewTableData>({} as NewTableData)
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const poolTableInfo = useGoogleAutocomplete(inputRef, {} as NewTableData);
-  useEffect(() => {
-    if (poolTableInfo) {
-      setPoolTableFormData({
-        ...poolTableFormData,
-        ...poolTableInfo
-      })
-    }
-  }, [poolTableInfo]);
+  const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, {} as NewTableData);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setPoolTableFormData({
-      ...poolTableFormData,
-      [name]: value
-    })
-  }
   return (
     <StyledForm>
-      <StyledInput defaultValue={undefined} value={poolTableFormData?.name} onChange={onChange} name="name" ref={inputRef} placeholder='Name' />
-      <StyledInput defaultValue={undefined} value={poolTableFormData?.address?.address} onChange={onChange} name="address" placeholder='Address' />
-      <StyledInput defaultValue={undefined} value={poolTableFormData?.address?.address2} onChange={onChange} name="address2" placeholder='Address Line 2' />
-      <StyledInput defaultValue={undefined} value={poolTableFormData?.address?.city} onChange={onChange} name="city" placeholder='City' />
-      <StyledInput defaultValue={undefined} value={poolTableFormData?.address?.state} onChange={onChange} name="state" placeholder='State' />
-      <StyledInput defaultValue={undefined} value={poolTableFormData?.address?.postalCode} onChange={onChange} name="postalCode" placeholder='Zip' />
+      <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.name} name="name" ref={inputRef} placeholder='Name' />
+      <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.address} name="address" placeholder='Address' />
+      <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.address2} name="address2" placeholder='Address Line 2' />
+      <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.city} name="city" placeholder='City' />
+      <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.state} name="state" placeholder='State' />
+      <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.postalCode} name="postalCode" placeholder='Zip' />
       {/* <StyledInput value={poolTableFormData.cost} onChange={onChange} name="cost" placeholder='Cost' /> */}
       <RadioGroup>
         <label>

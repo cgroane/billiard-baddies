@@ -1,10 +1,10 @@
 import React from 'react';
 import * as Realm from 'realm-web';
 
-interface StaticProps {
+interface LoginProps {
   plant: string;
 }
-const Static: React.FC<StaticProps> = ({ plant }) => {
+const Login: React.FC<LoginProps> = ({ plant }) => {
   return (
     <></>
   )
@@ -29,3 +29,5 @@ export async function getStaticProps() {
     },
   };
 }
+
+export default Login;

@@ -1,4 +1,5 @@
 import React, { Dispatch, RefObject, useEffect, useState, SetStateAction } from 'react';
+import { useCallback } from 'react';
 
 export type AutoCompleteChangeFunction = (poolTable: PoolTableAutoFillData) => void;
 export type AutoCompleteElement = RefObject<HTMLInputElement>;
@@ -123,15 +124,33 @@ export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals
     ...initialVals,
     address: {...address},
   })
-  const onChange: AutoCompleteChangeFunction = (poolTable: PoolTableAutoFillData) => {
+  const onChange: AutoCompleteChangeFunction = useCallback((poolTable: PoolTableAutoFillData) => {
     setPoolTableData(poolTable);
-  };
+  }, [setPoolTableData]);
+
+  const handleChangeManual = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setPoolTableData({
+        ...poolTableData,
+        [e.target.name]: value
+      })
+    } else {
+      setPoolTableData({
+        ...poolTableData,
+        address: {
+          ...poolTableData.address,
+          [name]: value
+        }
+      })
+    }
+  }
   useEffect(() => {
     if (loadScript) {
       setPoolTableData(poolTableData);
       loadScript(() => handleScriptLoad(onChange, inputRef));
     }
-  }, [inputRef]);
+  }, [inputRef, poolTableData]);
 
-  return poolTableData;
+  return { poolTableData, handleChangeManual };
 };
