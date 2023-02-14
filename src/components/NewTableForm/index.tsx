@@ -19,6 +19,10 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, {} as NewTableData);
 
+  const submit = () => {
+    
+  }
+
   return (
     <StyledForm>
       <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.name} name="name" ref={inputRef} placeholder='Name' />
@@ -44,10 +48,15 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
 }
  
 const StyledInput = styled.input`
-    border-right: none;
-    border-left: none;
-    margin: 1rem auto;
-    width: 70%;
+  border: 0.1563rem solid ${props => props.theme.colors.darkMoss};
+  border-right: none;
+  border-left: none;
+  margin: 1rem auto;
+  width: 70%;
+  height: 2.5rem;
+  :focus {
+    outline: none;
+  }
 `
 const StyledForm = styled.form`
   display: flex;
@@ -59,10 +68,15 @@ const StyledForm = styled.form`
   align-items: center;
 `
 const SubmitButton = styled.button`
-  height: 4rem;
+  height: 3rem;
   width: 10rem;
   padding: 0.5rem;
   font-size: 1rem;
+  background: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.darkMoss};
+  border: none;
+  border-radius: 8px;
+  border: 0.125rem solid ${props => props.theme.colors.darkMoss};
 `
 const RadioGroup = styled.div`
     margin: 1rem auto;

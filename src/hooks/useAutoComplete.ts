@@ -10,14 +10,32 @@ export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals
     address: {...address},
   })
   const onChange: AutoCompleteChangeFunction = useCallback((poolTable: PoolTableAutoFillData) => {
-    setPoolTableData({...poolTableData, ...poolTable});
-  }, [setPoolTableData, poolTableData]);
+    setPoolTableData(poolTable);
+  }, [setPoolTableData]);
+
+  const handleChangeManual = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setPoolTableData({
+        ...poolTableData,
+        [e.target.name]: value
+      })
+    } else {
+      setPoolTableData({
+        ...poolTableData,
+        address: {
+          ...poolTableData.address,
+          [name]: value
+        }
+      })
+    }
+  }
   useEffect(() => {
     if (loadScript) {
       setPoolTableData(poolTableData);
       loadScript(() => handleScriptLoad(onChange, inputRef));
     }
-  }, [inputRef, poolTableData, onChange]);
+  }, [inputRef, poolTableData]);
 
-  return poolTableData;
+  return { poolTableData, handleChangeManual };
 };

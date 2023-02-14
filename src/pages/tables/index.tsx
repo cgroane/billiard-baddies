@@ -1,14 +1,16 @@
+import Map from "@/components/maps";
 import Page from "@/components/page";
+import { PoolTable } from "@/utils/handleGoogleScriptLoad";
 import { getPoolTables } from "../api/tables";
 
 interface TablesProps {
-  tables: []
+  tables: PoolTable[]
 }
 const Tables: React.FC<TablesProps> = ({ tables }) => {
 
   return (
     <Page>
-      tables page
+      <Map poolTables={tables} />
     </Page>
   )
 }

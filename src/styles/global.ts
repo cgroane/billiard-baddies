@@ -14,26 +14,18 @@ const OxygenBold = Oxygen({
   subsets: ['latin'],
   weight: '700'
 });
-export const GlobalStyles = createGlobalStyle`
-  * {
-    box-sixing: border-box;
-    font-family: ${OxygenRegular.style.fontFamily};
-  }
-  body {
-    margin: 0;
-    height: 100vh;
-    width: 100vw;
-  }
-  #__next {
-    width: 100%;
-    height: 100%;
-  }
-`
+
 
 export const theme = {
   colors: {
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    smokeyBlack: '#0F0A0A',
+    moss: '#92A07E',
+    darkMoss: '#636E53',
+    sand: '#D7B49E',
+    champagne: '#EDDDD4',
+    hunter: '#315B3D'
   },
   fontSize: {
     small: '0.75rem',
@@ -47,3 +39,29 @@ export const theme = {
     bold: OxygenBold.style.fontFamily
   }
 }
+type ThemeType = typeof theme;
+
+export const GlobalStyles = createGlobalStyle`
+  * {
+    box-sixing: border-box;
+    font-family: ${OxygenRegular.style.fontFamily};
+  }
+  body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    color: white;
+  }
+  #__next {
+    width: 100%;
+    height: 100%;
+  }
+  .pac-item {
+    background: rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 0.25rem;
+    margin: 2px 2px 0 2px;
+
+  }
+`

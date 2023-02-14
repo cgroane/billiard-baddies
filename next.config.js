@@ -3,7 +3,7 @@ const process = require('dotenv');
 
 const nextConfig = {
   reactStrictMode: true,
-  // styledComponents: boolean | {
+  styledComponents: true
   //   // Enabled by default in development, disabled in production to reduce file size,
   //   // setting this will override the default for all environments.
   //   displayName: boolean,
