@@ -72,7 +72,14 @@ export async function handlePlaceSelect(changeFunction: AutoCompleteChangeFuncti
       ...placeObject
 
     }
-    changeFunction({ address: {...updateVals}, ...poolTabledata });
+    changeFunction({
+      address: {...updateVals},
+      coordinates: {
+        lat: poolTabledata.geometry?.location?.lat() as number,
+        lng: poolTabledata.geometry?.location?.lng() as number,
+    },
+    ...poolTabledata
+  });
   }
 }
 
@@ -111,10 +118,14 @@ export interface Address {
 }
 export interface PoolTableAutoFillData extends google.maps.places.PlaceResult {
   address: Address;
+  coordinates: {
+    lat: number;
+    lng: number;
+  }
 }
 
 export interface PoolTable extends PoolTableAutoFillData {
-  cost: number;
+  cost: string;
 }
 
 export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals: PoolTableAutoFillData) => {
@@ -125,7 +136,13 @@ export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals
     address: {...address},
   })
   const onChange: AutoCompleteChangeFunction = useCallback((poolTable: PoolTableAutoFillData) => {
-    setPoolTableData(poolTable);
+    setPoolTableData({
+      ...poolTable,
+      coordinates: {
+        lat: poolTable.geometry?.location?.lat() as number,
+        lng: poolTable.geometry?.location?.lng() as number,
+      }
+    });
   }, [setPoolTableData]);
 
   const handleChangeManual = (e: React.ChangeEvent<HTMLInputElement>) => {

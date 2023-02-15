@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 
 export default function Home() {
-  const db = useMongo();
   return (
     <>
       <Link href={'/tables'} > Pool Tables </Link>

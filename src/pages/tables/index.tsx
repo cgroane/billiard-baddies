@@ -7,7 +7,6 @@ interface TablesProps {
   tables: PoolTable[]
 }
 const Tables: React.FC<TablesProps> = ({ tables }) => {
-
   return (
     <Page>
       <Map poolTables={tables} />

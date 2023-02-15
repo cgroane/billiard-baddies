@@ -5,6 +5,8 @@ import { useCallback } from 'react';
 
 export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: PoolTable[]) => {
   const [userLocation, setUserLocation ] = useState<GeolocationCoordinates>()
+  const [googleMap, setMap] = useState<google.maps.Map>({} as google.maps.Map)
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((success) => setUserLocation({
       ...success.coords,
@@ -25,17 +27,18 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
           },
         }
       );
-    
+      
       // The marker, positioned at Uluru
       const markerGenerator = poolTables.map((table) => {
         new google.maps.Marker({
           position: {
-            lat: table.geometry?.location?.lat() as number,
-            lng: table.geometry?.location?.lng() as number,
+            lat: table?.coordinates?.lat,
+            lng: table?.coordinates?.lng,
           },
           map: map,
         });
       })
+      setMap(map);
     }
   }, [poolTables, divRef, userLocation]);
 
@@ -44,4 +47,11 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       loadScript(() => initMap())    
     // }
   }, [userLocation, initMap])
+
+  const recenter = () => {
+    googleMap.setCenter({
+      lat: userLocation?.latitude as number,
+      lng: userLocation?.longitude as number
+    })
+  }
 }
