@@ -150,7 +150,7 @@ export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals
       setPoolTableData(poolTableData);
       loadScript(() => handleScriptLoad(onChange, inputRef));
     }
-  }, [inputRef, poolTableData]);
+  }, [inputRef, poolTableData, onChange]);
 
   return { poolTableData, handleChangeManual };
 };

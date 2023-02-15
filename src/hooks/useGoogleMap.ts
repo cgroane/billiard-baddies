@@ -1,6 +1,7 @@
 
 import { useEffect, RefObject, useState } from 'react';
 import { loadScript, PoolTable } from '@/utils/handleGoogleScriptLoad';
+import { useCallback } from 'react';
 
 export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: PoolTable[]) => {
   const [userLocation, setUserLocation ] = useState<GeolocationCoordinates>()
@@ -11,8 +12,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       longitude: success.coords.longitude,
     }))
   },[])
-  const initMap = () => {
-    console.log('map')
+  const initMap = useCallback(() => {
     // The map, centered at Uluru
     if (!!window && window.google) {
       const map = new google.maps.Map(
@@ -37,10 +37,11 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
         });
       })
     }
-  }
+  }, [poolTables, divRef, userLocation]);
+
   useEffect(() => {
     // if (userLocation) {
       loadScript(() => initMap())    
     // }
-  }, [userLocation])
+  }, [userLocation, initMap])
 }
