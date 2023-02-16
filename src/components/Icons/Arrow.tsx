@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { RefObject, TouchEventHandler } from 'react'
 import styled from 'styled-components'
  
-interface ArrowProps {}
-const Arrow: React.FC<ArrowProps> = ({}: ArrowProps) => {
+interface ArrowProps {
+}
+const Arrow: React.FC<ArrowProps> = ({  }: ArrowProps) => {
   return (
     <>
     <svg width="30px" height="30px" viewBox="0 0 2543 778" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" style={{ fillRule: 'evenodd', clipRule: 'evenodd', strokeLinejoin: 'round', strokeMiterlimit :2}}>

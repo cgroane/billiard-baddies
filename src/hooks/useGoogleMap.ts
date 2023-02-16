@@ -2,6 +2,7 @@
 import { useEffect, RefObject, useState, Dispatch, SetStateAction } from 'react';
 import { loadScript, PoolTable } from '@/utils/handleGoogleScriptLoad';
 import { useCallback } from 'react';
+import MarkerWindow from 'src/components/maps/MarkerWindow';
 
 export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: PoolTable[], selectPoolTable: Dispatch<SetStateAction<PoolTable>>) => {
   const [userLocation, setUserLocation ] = useState<GeolocationCoordinates>()
@@ -32,7 +33,11 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       // The marker, positioned at Uluru
       const markerGenerator = poolTables.map((table) => {
         const markerWindow = new google.maps.InfoWindow({
-          content: table.name,
+          content: `
+            <div style="color:black" >
+              ${table.name}
+            </div>
+          `,
         })
         const newMarker = new google.maps.Marker({
           position: {
@@ -41,11 +46,12 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
           },
           map: map,
           clickable: true,
-          title: table.name
+          title: table.name,
         });
         newMarker.addListener('click', () => {
           markerWindow.open({
             anchor: newMarker,
+            shouldFocus: false,
             map
           })
         });

@@ -15,6 +15,8 @@ const MarkerWindow: React.FC<MarkerWindowProps> = ({ table }: MarkerWindowProps)
  
 const MarkerWindowContainer = styled.div`
   color: black;
+  width: auto;
+  height: 2rem;
 `
 export default MarkerWindow
  
