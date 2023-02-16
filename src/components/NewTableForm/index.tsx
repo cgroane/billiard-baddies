@@ -1,9 +1,9 @@
 import { PoolTableAutoFillData, useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
-import React, { useState, useRef, useEffect, SyntheticEvent, ChangeEvent, useMemo, FormEvent } from 'react'
+import React, { useState, useRef, SyntheticEvent, ChangeEvent, useMemo, FormEvent } from 'react'
 import styled from 'styled-components'
-import { useCallback } from 'react';
-import { useMongo } from '@/hooks/useMongo';
+
 import { Address } from 'src/utils/handleGoogleScriptLoad';
+import { useRouter } from 'next/router';
  
 export enum Rates  {
   'hourly' = 'Hourly',
@@ -16,7 +16,7 @@ interface NewTableData extends PoolTableAutoFillData {
   rate: Rates;
 }
 const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
-  // const [poolTableFormData, setPoolTableFormData] = useState<NewTableData>({} as NewTableData)
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, {} as NewTableData);
   const [manualFormData, setManualFormData] = useState<{ cost: string; rate: Rates }>({
@@ -50,6 +50,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
     const result = await response.json()
+    router.push('/');
   }
 
   const handleCostAndRate = (e: ChangeEvent<HTMLInputElement>) => {

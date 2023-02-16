@@ -1,6 +1,8 @@
+import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
 import { PoolTable } from "@/utils/handleGoogleScriptLoad";
+import styled from "styled-components";
 import { getPoolTables } from "../api/tables";
 
 interface TablesProps {
@@ -10,9 +12,11 @@ const Tables: React.FC<TablesProps> = ({ tables }) => {
   return (
     <Page>
       <Map poolTables={tables} />
+      <BottomBar/>
     </Page>
   )
 }
+
 
 
 /**

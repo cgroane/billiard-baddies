@@ -20,7 +20,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       const map = new google.maps.Map(
         divRef.current as HTMLElement,
         {
-          zoom: 4,
+          zoom: 10,
           center: {
             lat: userLocation?.latitude as number,
             lng: userLocation?.longitude as number

@@ -15,8 +15,8 @@ const Map: React.FC<MapProps> = ({ poolTables }) => {
 }
 
 const StyledMap = styled.div`
-  height: 100%;
   width: 100%;
-  
+  height: calc(100% - 6rem);
+
 `
 export default Map;
