@@ -1,7 +1,6 @@
-import { createGlobalStyle } from "styled-components";
-// const EduQLD = require('../../fonts/Edu_QLD_Beginner/EduQLDBeginner-VariableFont_wght.ttf');
+import styled, { createGlobalStyle, css } from "styled-components";
 import {Oxygen} from '@next/font/google';
-// import EduQLD from '../../fonts/Edu_QLD_Beginner/EduQLDBeginner-VariableFont_wght.ttf';
+
 const OxygenLight = Oxygen({
   subsets: ['latin'],
   weight: '300'

@@ -1,17 +1,22 @@
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
+import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/utils/handleGoogleScriptLoad";
 import styled from "styled-components";
 import { getPoolTables } from "../api/tables";
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 interface TablesProps {
   tables: PoolTable[]
 }
 const Tables: React.FC<TablesProps> = ({ tables }) => {
+  const context = usePoolTableContext();
+
   return (
     <Page>
-      <Map poolTables={tables} />
+      {/* <Map poolTables={tables} /> */}
       <BottomBar/>
     </Page>
   )

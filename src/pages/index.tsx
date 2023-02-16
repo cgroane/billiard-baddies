@@ -2,7 +2,7 @@ import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
 import { PoolTable } from "@/utils/handleGoogleScriptLoad";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { getPoolTables } from "./api/tables";
 import Loading from "./loading";
 
@@ -10,11 +10,12 @@ interface HomeProps {
   tables: PoolTable[]
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
+  const [selectedTable, setSelectedTable] = useState<PoolTable>({ } as PoolTable);
   return (
     <Suspense fallback={<Loading />}>
       <Page>
-        <Map poolTables={tables} />
-        <BottomBar/>
+        <Map setSelectedTable={setSelectedTable} poolTables={tables} />
+        <BottomBar tableData={selectedTable} />
       </Page>
     </Suspense>
   )

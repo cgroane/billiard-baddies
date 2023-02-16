@@ -1,14 +1,16 @@
 import { useGoogleMap } from "@/hooks/useGoogleMap";
 import { PoolTable } from "@/utils/handleGoogleScriptLoad";
-import { useRef } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import styled from "styled-components";
 
 interface MapProps {
-  poolTables: PoolTable[]
+  poolTables: PoolTable[];
+  setSelectedTable: Dispatch<SetStateAction<PoolTable>>;
 }
-const Map: React.FC<MapProps> = ({ poolTables }) => {
+const Map: React.FC<MapProps> = ({ poolTables, setSelectedTable }) => {
   const mapRef = useRef<HTMLDivElement>(null)
-  useGoogleMap(mapRef, poolTables)
+  useGoogleMap(mapRef, poolTables, setSelectedTable)
+
   return (
     <StyledMap ref={mapRef} />
   )

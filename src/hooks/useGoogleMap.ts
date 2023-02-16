@@ -1,9 +1,9 @@
 
-import { useEffect, RefObject, useState } from 'react';
+import { useEffect, RefObject, useState, Dispatch, SetStateAction } from 'react';
 import { loadScript, PoolTable } from '@/utils/handleGoogleScriptLoad';
 import { useCallback } from 'react';
 
-export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: PoolTable[]) => {
+export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: PoolTable[], selectPoolTable: Dispatch<SetStateAction<PoolTable>>) => {
   const [userLocation, setUserLocation ] = useState<GeolocationCoordinates>()
   const [googleMap, setMap] = useState<google.maps.Map>({} as google.maps.Map)
 
@@ -14,6 +14,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       longitude: success.coords.longitude,
     }))
   },[])
+
   const initMap = useCallback(() => {
     // The map, centered at Uluru
     if (!!window && window.google) {
@@ -30,13 +31,25 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       
       // The marker, positioned at Uluru
       const markerGenerator = poolTables.map((table) => {
-        new google.maps.Marker({
+        const markerWindow = new google.maps.InfoWindow({
+          content: table.name,
+        })
+        const newMarker = new google.maps.Marker({
           position: {
             lat: table?.coordinates?.lat,
             lng: table?.coordinates?.lng,
           },
           map: map,
+          clickable: true,
+          title: table.name
         });
+        newMarker.addListener('click', () => {
+          markerWindow.open({
+            anchor: newMarker,
+            map
+          })
+        });
+        selectPoolTable(table);
       })
       setMap(map);
     }
@@ -48,10 +61,10 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
     // }
   }, [userLocation, initMap])
 
-  const recenter = () => {
+  const recenter = useCallback(() => {
     googleMap.setCenter({
       lat: userLocation?.latitude as number,
       lng: userLocation?.longitude as number
     })
-  }
+  }, [googleMap])
 }
