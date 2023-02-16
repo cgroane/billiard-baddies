@@ -59,7 +59,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       })
       setMap(map);
     }
-  }, [poolTables, divRef, userLocation]);
+  }, [poolTables, divRef, userLocation, selectPoolTable]);
 
   useEffect(() => {
     // if (userLocation) {
@@ -72,5 +72,5 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
       lat: userLocation?.latitude as number,
       lng: userLocation?.longitude as number
     })
-  }, [googleMap])
+  }, [googleMap, userLocation])
 }
