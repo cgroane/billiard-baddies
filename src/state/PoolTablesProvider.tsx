@@ -1,5 +1,5 @@
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
-import { PoolTable } from '@/utils/handleGoogleScriptLoad';
+import { PoolTable } from '@/types';
 
 interface PoolTablesContextProps {
   poolTables:PoolTable[];

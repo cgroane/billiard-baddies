@@ -1,6 +1,7 @@
-import { AutoCompleteChangeFunction, AutoCompleteElement, loadScript, PoolTableAutoFillData } from "@/utils/handleGoogleScriptLoad";
+import { AutoCompleteChangeFunction, AutoCompleteElement, PoolTableAutoFillData } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { handleScriptLoad } from 'src/utils/handleGoogleScriptLoad';
+import { loadScript } from '@/utils/handleGoogleScriptLoad';
 
 export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals: PoolTableAutoFillData) => {
   const { address } = initialVals;

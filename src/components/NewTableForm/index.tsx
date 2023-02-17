@@ -1,5 +1,5 @@
 import { PoolTableAutoFillData, Address, Rates } from '@/types';
-import React, { useState, useRef, ChangeEvent, useMemo, FormEvent } from 'react'
+import React, { useState, useRef, ChangeEvent, useMemo, FormEvent, useCallback } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router';
 import { useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
@@ -54,7 +54,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
       [name]: value
     })
   }
-  const validateAddress = () => {
+  const validateAddress = useCallback(() => {
     const addressFields = Object.keys(poolTableData.address);
     let i;
     let isEmpty = true;
@@ -67,7 +67,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
       }
     }
     return isEmpty;
-  }
+  }, [poolTableData]);
   const disable = useMemo(() => parseInt(manualFormData.cost as string) < 0 || validateAddress() ? true : false, [manualFormData.cost, validateAddress])
   return (
     <StyledForm onSubmit={submit} >
