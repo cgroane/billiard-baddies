@@ -2,6 +2,7 @@ import { GlobalStyles, theme } from '@/styles/global'
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
 import { PoolTableContextWrapper } from '@/state/PoolTablesProvider';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -12,5 +13,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </PoolTableContextWrapper>
     </ThemeProvider>
+    <Analytics />
   </>
 }
