@@ -1,6 +1,7 @@
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
+import { useMongo } from "@/hooks/useMongo";
 import { useAppContext } from "@/state/mongoProvider";
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/types";
@@ -11,8 +12,9 @@ interface HomeProps {
   tables: PoolTable[]
 }
 const Home: React.FC<HomeProps> = ({  }) => {
-  const db = useAppContext();
+  const db = useMongo();
   const poolContext = usePoolTableContext();
+  console.log(poolContext.poolTables);
   useEffect(() => {
     if (db?.id && !!db.currentUser) {
       db.currentUser.mongoClient("mongodb-atlas")
