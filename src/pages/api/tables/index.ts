@@ -1,6 +1,5 @@
 import app from "..";
 import * as Realm from 'realm-web';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 export const getPoolTables = async () => {
   const credentials = Realm.Credentials.apiKey(process.env.NEXT_PUBLIC_REALM_API_KEY as string);
