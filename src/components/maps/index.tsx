@@ -1,6 +1,7 @@
 import { useGoogleMap } from "@/hooks/useGoogleMap";
 import { useRef } from 'react';
 import styled from "styled-components";
+import { FlexBox } from "../shared";
 
 interface MapProps {
 }
@@ -9,13 +10,16 @@ const Map: React.FC<MapProps> = ({ }) => {
   useGoogleMap(mapRef);
 
   return (
-    <StyledMap ref={mapRef} />
+    <MapContainer height={'72%'} width={'100%'}>
+      <StyledMap ref={mapRef} />
+    </MapContainer>
   )
 }
 
 const StyledMap = styled.div`
   width: 100%;
-  height: calc(100% - 6rem);
-
+  height: 100%;
+`
+const MapContainer = styled(FlexBox)`
 `
 export default Map;

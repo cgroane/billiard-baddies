@@ -5,17 +5,25 @@ import { loadScript } from '@/utils/handleGoogleScriptLoad';
 import { usePoolTableContext } from '@/state/PoolTablesProvider';
 
 export const useGoogleMap = (divRef: RefObject<HTMLDivElement>) => {
-  const [userLocation, setUserLocation ] = useState<GeolocationCoordinates>()
+  const [userLocation, setUserLocation ] = useState<{ latitude: number; longitude: number; }>({
+    longitude: 47.6062,
+    latitude: 122.3321
+  })
   const [googleMap, setMap] = useState<google.maps.Map>({} as google.maps.Map)
   const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
   const poolContext = usePoolTableContext();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((success) => setUserLocation({
-      ...success.coords,
       latitude: success.coords.latitude,
       longitude: success.coords.longitude,
-    }))
+    }), (error) => {
+      console.log(error);
+      setUserLocation({
+        longitude: 47.6062,
+        latitude: 122.3321
+      })
+    })
   },[])
 
   const initMap = useCallback(() => {
