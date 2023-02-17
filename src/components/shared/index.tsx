@@ -1,5 +1,5 @@
 import { flex, FlexProps } from "@/styles/flex";
-import { fontSize } from "@/styles/fontSizes";
+import { fontColor, fontSize } from "@/styles/fontSizes";
 import { layout, LayoutProps, position, PositionProps } from "@/styles/layout";
 import styled from "styled-components";
 
@@ -15,6 +15,7 @@ export const FixedPositionBox = styled.div<LayoutProps & FlexProps & PositionPro
 `
 export const Span = styled.span`
   ${fontSize};
+  ${fontColor};
 `
 export const Header1 = styled.h1`
   ${fontSize};

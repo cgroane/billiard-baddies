@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useRouter } from 'next/router';
 import { useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
 import { Span } from '../shared';
+import { theme } from '@/styles/global';
 
 interface NewTableFormProps {}
 interface NewTableData extends PoolTableAutoFillData {
@@ -94,7 +95,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
         </label>
       </RadioGroup>
       <SubmitButton type='submit' disabled={disable} >Add To Map</SubmitButton>
-      {error && <Span fontSize='medium' >{error}</Span>}
+      {error && <Span color={theme.colors.error} fontSize='medium' >{error}</Span>}
   </StyledForm>
   )
 }

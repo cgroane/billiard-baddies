@@ -24,7 +24,8 @@ export const theme = {
     darkMoss: '#636E53',
     sand: '#D7B49E',
     champagne: '#EDDDD4',
-    hunter: '#315B3D'
+    hunter: '#315B3D',
+    error: '#A53F2B'
   },
   fontSize: {
     small: '0.75rem',
