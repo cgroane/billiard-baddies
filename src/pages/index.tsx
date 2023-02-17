@@ -6,24 +6,17 @@ import { useAppContext } from "@/state/mongoProvider";
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/types";
 import { Suspense, useEffect } from "react";
+import { getPoolTables } from "./api/tables";
 import Loading from "./loading";
 
 interface HomeProps {
   tables: PoolTable[]
 }
-const Home: React.FC<HomeProps> = ({  }) => {
-  const db = useMongo();
+const Home: React.FC<HomeProps> = ({ tables }) => {
   const poolContext = usePoolTableContext();
-  console.log(poolContext.poolTables);
   useEffect(() => {
-    if (db?.id && !!db.currentUser) {
-      db.currentUser.mongoClient("mongodb-atlas")
-        .db('pool-tables')
-        .collection('pool-taables')
-        .find()
-        .then((data) => poolContext.setPoolTables(data));
-    }
-  }, [poolContext.setPoolTables, db]);
+    poolContext.setPoolTables(tables)
+  }, [poolContext.setPoolTables, tables]);
   return (
     <Suspense fallback={<Loading />}>
       <Page>
@@ -41,14 +34,14 @@ const Home: React.FC<HomeProps> = ({  }) => {
  * @returns this is for SSR pool table findings\
  * although it may be  better to just do it all client side for realtime updates
  */
-// export const getStaticProps = async () => {
-//   const data = await getPoolTables();
-//   return {
-//     props: {
-//       tables: JSON.parse(JSON.stringify(data))
-//     }
-//   }
-// }
+export const getStaticProps = async () => {
+  const data = await getPoolTables();
+  return {
+    props: {
+      tables: JSON.parse(JSON.stringify(data))
+    }
+  }
+}
 // const getStaticPaths = () => {
   
 // }
