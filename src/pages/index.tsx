@@ -23,6 +23,7 @@ const Home: React.FC<HomeProps> = ({  }) => {
         })
     }
   }, [setTables, app])
+  console.log('husky');
   useEffect(() => {
     getTables();
   },[getTables])

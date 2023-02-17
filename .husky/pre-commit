@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm test
+npm run build || 
+(
+  echo 'build failed, run locally and address build errors'
+  false
+)
+
+echo 'Committing changes';
