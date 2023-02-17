@@ -1,5 +1,5 @@
 import { useGoogleMap } from "@/hooks/useGoogleMap";
-import { PoolTable } from "@/utils/handleGoogleScriptLoad";
+import { PoolTable } from "@/types";
 import { Dispatch, SetStateAction, useRef } from 'react';
 import styled from "styled-components";
 

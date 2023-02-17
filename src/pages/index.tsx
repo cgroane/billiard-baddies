@@ -1,7 +1,7 @@
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
-import { PoolTable } from "@/utils/handleGoogleScriptLoad";
+import { PoolTable } from "@/types";
 import { Suspense, useState } from "react";
 import { getPoolTables } from "./api/tables";
 import Loading from "./loading";

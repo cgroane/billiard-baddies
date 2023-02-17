@@ -2,7 +2,7 @@ import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
-import { PoolTable } from "@/utils/handleGoogleScriptLoad";
+import { PoolTable } from "@/types";
 import styled from "styled-components";
 import { getPoolTables } from "../api/tables";
 import { useEffect } from 'react';

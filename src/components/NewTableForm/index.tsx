@@ -1,14 +1,8 @@
-import { PoolTableAutoFillData, useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
-import React, { useState, useRef, SyntheticEvent, ChangeEvent, useMemo, FormEvent } from 'react'
+import { PoolTableAutoFillData, Address, Rates } from '@/types';
+import React, { useState, useRef, ChangeEvent, useMemo, FormEvent } from 'react'
 import styled from 'styled-components'
-
-import { Address } from 'src/utils/handleGoogleScriptLoad';
 import { useRouter } from 'next/router';
- 
-export enum Rates  {
-  'hourly' = 'Hourly',
-  'perGame' = 'Per Game'
-}
+import { useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
 
 interface NewTableFormProps {}
 interface NewTableData extends PoolTableAutoFillData {

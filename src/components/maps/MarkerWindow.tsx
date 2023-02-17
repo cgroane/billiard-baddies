@@ -1,4 +1,4 @@
-import { PoolTable } from '@/utils/handleGoogleScriptLoad'
+import { PoolTable } from '@/types'
 import React from 'react'
 import styled from 'styled-components'
  

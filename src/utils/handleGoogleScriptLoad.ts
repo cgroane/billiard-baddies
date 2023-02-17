@@ -1,9 +1,7 @@
-import React, { Dispatch, RefObject, useEffect, useState, SetStateAction } from 'react';
+import { AutoCompleteChangeFunction, AutoCompleteElement, HandeScriptLoadFuncType, Address, PoolTableAutoFillData } from '@/types';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 
-export type AutoCompleteChangeFunction = (poolTable: PoolTableAutoFillData) => void;
-export type AutoCompleteElement = RefObject<HTMLInputElement>;
-export type HandeScriptLoadFuncType = <T>(changeFunction:AutoCompleteChangeFunction, autoCompleteElementRef: AutoCompleteElement) => void;
 
 export const handleScriptLoad: HandeScriptLoadFuncType = <T>(changeFunction: AutoCompleteChangeFunction, autoCompleteElementRef: AutoCompleteElement) => {
   if (!!window && !!window.google) {
@@ -109,24 +107,6 @@ const getAddressPart = (addressPart: string, addressArray: google.maps.GeocoderA
  * it's the 'changeFunction' seen throughout the document
  * returns the address
  */
-export interface Address {
-  address: string;
-  address2: string;
-  city: string;
-  state: string;
-  postalCode: string;
-}
-export interface PoolTableAutoFillData extends google.maps.places.PlaceResult {
-  address: Address;
-  coordinates: {
-    lat: number;
-    lng: number;
-  }
-}
-
-export interface PoolTable extends PoolTableAutoFillData {
-  cost: string;
-}
 
 export const useGoogleAutocomplete = (inputRef: AutoCompleteElement, initialVals: PoolTableAutoFillData) => {
   const { address } = initialVals;

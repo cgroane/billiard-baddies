@@ -1,14 +1,10 @@
-import { PoolTableContextWrapper, usePoolTableContext } from '@/state/PoolTablesProvider'
-import { PoolTable } from '@/utils/handleGoogleScriptLoad'
+
+import { PoolTable } from '@/types'
 import Link from 'next/link'
-import React, { RefObject, TouchEventHandler, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
-import Arrow from '../Icons/Arrow'
 import PlusSymbol from '../Icons/PlusSymbol'
-import { layout, LayoutProps } from 'src/styles/layout';
-import { flex, FlexProps } from '@/styles/flex'
-import { FixedPositionBox, FlexBox } from '../shared'
-import { theme } from '@/styles/global'
+import { FixedPositionBox, FlexBox, Span } from '../shared'
  
 interface BottomBarProps {
   tableData?: PoolTable
@@ -34,9 +30,12 @@ const BottomBar: React.FC<BottomBarProps> = ({ tableData, ...props }: BottomBarP
         >
         {/* <Arrow /> */}
         </div>
-        <div>
-          
-        </div>
+        <TableContent>
+          <Span fontSize='medium' >{tableData?.name}</Span>
+          {tableData?.cost && (<div>
+            <Span fontSize='small' >${tableData?.cost} {tableData?.rate}</Span>
+          </div>)}
+        </TableContent>
       </MiddleDiv>
       <AddTableIconContainer
         display={'flex'}
@@ -63,6 +62,10 @@ const expandBar = css`
   top: 0;
   position: fixed;
 `
+const TableContent = styled(FlexBox)`
+  padding: 0.5rem;
+  text-align: center;
+`;
 const BottomBarContainer = styled(FixedPositionBox)<{ expand?: boolean }>`
   /* background: ${props => props.theme.colors.black};
   transition: transform 0.5s linear;

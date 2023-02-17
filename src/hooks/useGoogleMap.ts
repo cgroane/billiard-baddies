@@ -1,12 +1,14 @@
 
 import { useEffect, RefObject, useState, Dispatch, SetStateAction } from 'react';
-import { loadScript, PoolTable } from '@/utils/handleGoogleScriptLoad';
+import { PoolTable } from '@/types';
 import { useCallback } from 'react';
 import MarkerWindow from 'src/components/maps/MarkerWindow';
+import { loadScript } from '@/utils/handleGoogleScriptLoad';
 
 export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: PoolTable[], selectPoolTable: Dispatch<SetStateAction<PoolTable>>) => {
   const [userLocation, setUserLocation ] = useState<GeolocationCoordinates>()
   const [googleMap, setMap] = useState<google.maps.Map>({} as google.maps.Map)
+  const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((success) => setUserLocation({
@@ -29,16 +31,10 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
           },
         }
       );
-      
+      const markerWindow = new google.maps.InfoWindow()
       // The marker, positioned at Uluru
-      const markerGenerator = poolTables.map((table) => {
-        const markerWindow = new google.maps.InfoWindow({
-          content: `
-            <div style="color:black" >
-              ${table.name}
-            </div>
-          `,
-        })
+      const markers = poolTables.map((table) => {
+
         const newMarker = new google.maps.Marker({
           position: {
             lat: table?.coordinates?.lat,
@@ -49,14 +45,17 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>, poolTables: Pool
           title: table.name,
         });
         newMarker.addListener('click', () => {
+          selectPoolTable(table);
+          markerWindow.setContent(`<div style="color: black" >${table.name}</div>`);
           markerWindow.open({
             anchor: newMarker,
             shouldFocus: false,
             map
           })
-        });
-        selectPoolTable(table);
-      })
+        })
+        return newMarker
+      });
+      setMarkers(markers);
       setMap(map);
     }
   }, [poolTables, divRef, userLocation, selectPoolTable]);

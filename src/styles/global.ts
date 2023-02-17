@@ -64,3 +64,4 @@ export const GlobalStyles = createGlobalStyle`
 
   }
 `
+export type Scale<Type, Properties = Record<string, unknown>> = Array<Type> & Properties;
