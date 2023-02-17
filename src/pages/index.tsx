@@ -13,7 +13,6 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({  }) => {
   const db = useAppContext();
   const poolContext = usePoolTableContext();
-  console.log(poolContext.poolTables);
   useEffect(() => {
     if (db?.id && !!db.currentUser) {
       db.currentUser.mongoClient("mongodb-atlas")
