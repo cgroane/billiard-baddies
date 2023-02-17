@@ -3,7 +3,7 @@ import Map from "@/components/maps";
 import Page from "@/components/page";
 import { useMongo } from "@/hooks/useMongo";
 import { PoolTable } from "@/types";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 // import { getPoolTables } from "./api/tables";
 import Loading from "./loading";
 
@@ -15,14 +15,14 @@ const Home: React.FC<HomeProps> = ({  }) => {
   const [tables, setTables] = useState<PoolTable[]>([])
   const app = useMongo();
 
-  const getTables = () => {
+  const getTables = useCallback(() => {
     if (app && app.currentUser) {
       app.currentUser.mongoClient("mongodb-atlas").db('pool-tables').collection('pool-taables').find()
         .then((response) => {
           setTables(response);
         })
     }
-  }
+  }, [setTables, app])
   useEffect(() => {
     getTables();
   },[getTables])

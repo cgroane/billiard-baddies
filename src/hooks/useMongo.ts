@@ -9,7 +9,7 @@ export const useMongo = () => {
   }, [setDb]);
 
   useEffect(() => {
-    if (db && !db.currentUser) {
+    if (db && !!db.currentUser) {
       const user = Realm.Credentials.apiKey(process.env.NEXT_PUBLIC_REALM_API_KEY as string);
       db.logIn(user);
     }
