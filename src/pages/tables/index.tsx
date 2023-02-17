@@ -4,7 +4,6 @@ import Page from "@/components/page";
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/types";
 import styled from "styled-components";
-import { getPoolTables } from "../api/tables";
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 
@@ -29,16 +28,16 @@ const Tables: React.FC<TablesProps> = ({ tables }) => {
  * @returns this is for SSR pool table findings\
  * although it may be  better to just do it all client side for realtime updates
  */
-export const getStaticProps = async () => {
-  const data = await getPoolTables();
-  return {
-    props: {
-      tables: JSON.parse(JSON.stringify(data))
-    }
-  }
-}
-// const getStaticPaths = () => {
-  
+// export const getStaticProps = async () => {
+//   const data = await getPoolTables();
+//   return {
+//     props: {
+//       tables: JSON.parse(JSON.stringify(data))
+//     }
+//   }
 // }
+// // const getStaticPaths = () => {
+  
+// // }
 
 export default Tables;

@@ -25,8 +25,8 @@ const Home: React.FC<HomeProps> = ({  }) => {
   }
   useEffect(() => {
     getTables();
-  },[])
-  
+  },[getTables])
+
   return (
     <Suspense fallback={<Loading />}>
       <Page>
