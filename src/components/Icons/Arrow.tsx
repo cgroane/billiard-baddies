@@ -1,5 +1,4 @@
-import React, { RefObject, TouchEventHandler } from 'react'
-import styled from 'styled-components'
+import React from 'react'
  
 interface ArrowProps {
 }

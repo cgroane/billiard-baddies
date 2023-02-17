@@ -1,18 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FlexBox } from '../shared'
  
 interface PageProps extends React.PropsWithChildren {}
 const Page: React.FC<PageProps> = ({children}: PageProps) => {
   return (
-    <PageContainer>
+    <PageContainer display={'block'} width={'100%'} height={'100%'}>
       {children}
     </PageContainer>
   )
 }
 
-const PageContainer = styled.div`
-  height: 100%;
-  width: 100%;
+const PageContainer = styled(FlexBox)`
 `
 export default Page
  

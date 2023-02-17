@@ -1,10 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
+import { PoolTable } from '@/types';
+import Page from '@/components/page';
  
-interface TableProps {}
-const Table: React.FC<TableProps> = ({}: TableProps) => {
+interface TableProps {
+ table: PoolTable[];
+}
+const Table: React.FC<TableProps> = ({ table }: TableProps) => {
   return (
-    <></>
+    <Page>
+
+    </Page>
   )
 }
  

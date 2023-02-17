@@ -1,5 +1,3 @@
-import { PoolTable } from '@/types';
-import { Http2ServerRequest } from 'http2';
 import * as Realm from 'realm-web';
 import app from '..';
 import { NextApiResponse, NextApiRequest } from 'next';

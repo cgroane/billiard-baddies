@@ -1,23 +1,24 @@
-import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
-
+import { useMongo } from "@/hooks/useMongo";
+import React, { createContext, useContext } from "react";
+import * as Realm from 'realm-web';
 interface MongoContextProps {
-  poolTables:string[];
-  setPoolTables: Dispatch<SetStateAction<string[]>>;
+  db: Realm.App;
 }
 
-const MongoContext = createContext<MongoContextProps | null>(null);
+const MongoContext = createContext<MongoContextProps>({} as MongoContextProps);
 
 export const AppWrapper: React.FC<React.PropsWithChildren> = ({ children, ...props }) => {
-  const [poolTables, setPoolTables] = useState(['']);
-
+  const db = useMongo();
   return (
-    <MongoContext.Provider value={{ poolTables, setPoolTables }} {...props}>
+    <MongoContext.Provider value={{ db }} {...props}>
       {children}
     </MongoContext.Provider>
   );
 }
 
 export const useAppContext = () => {
-  return useContext(MongoContext);
+  const app = useContext(MongoContext);
+  const { db } = app
+  return db;
 }
 

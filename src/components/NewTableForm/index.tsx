@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
 import { Span } from '../shared';
 import { theme } from '@/styles/global';
+import { usePoolTableContext } from '@/state/PoolTablesProvider';
 
 interface NewTableFormProps {}
 interface NewTableData extends PoolTableAutoFillData {
@@ -20,7 +21,11 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     cost: '',
     rate: Rates.perGame
   });
+  const poolContext = usePoolTableContext();
 
+  const setFormValues = () => {
+    
+  }
   const submit = async (event: FormEvent) => {
     event.preventDefault()
     const {cost, rate} = manualFormData;

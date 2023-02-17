@@ -6,7 +6,7 @@ export const useMongo = () => {
 
   useEffect(() => {
     setDb(Realm.getApp(process.env.NEXT_PUBLIC_MONGO_APP_ID as string));
-  }, [setDb]);
+  }, []);
 
   useEffect(() => {
     if (db && !!db.currentUser) {

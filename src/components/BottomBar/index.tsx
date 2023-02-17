@@ -1,4 +1,5 @@
 
+import { usePoolTableContext } from '@/state/PoolTablesProvider'
 import { PoolTable } from '@/types'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -9,7 +10,9 @@ import { FixedPositionBox, FlexBox, Span } from '../shared'
 interface BottomBarProps {
   tableData?: PoolTable
 }
-const BottomBar: React.FC<BottomBarProps> = ({ tableData, ...props }: BottomBarProps) => {
+const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
+  const poolContext = usePoolTableContext();
+  
   const [expand, setExpand] = useState<{ full: boolean, initial: boolean }>({
     full: false, initial: false
   });
@@ -31,9 +34,9 @@ const BottomBar: React.FC<BottomBarProps> = ({ tableData, ...props }: BottomBarP
         {/* <Arrow /> */}
         </div>
         <TableContent>
-          <Span fontSize='medium' >{tableData?.name}</Span>
-          {tableData?.cost && (<div>
-            <Span fontSize='small' >${tableData?.cost} {tableData?.rate}</Span>
+          <Span fontSize='medium' >{poolContext.selectedTable?.name}</Span>
+          {poolContext.selectedTable?.cost && (<div>
+            <Span fontSize='small' >${poolContext.selectedTable?.cost} {poolContext.selectedTable?.rate}</Span>
           </div>)}
         </TableContent>
       </MiddleDiv>

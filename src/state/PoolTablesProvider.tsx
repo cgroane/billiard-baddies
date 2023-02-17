@@ -8,12 +8,8 @@ interface PoolTablesContextProps {
   setSelectedTable: Dispatch<SetStateAction<PoolTable>>;
 }
 
-const PoolTablesContext = createContext<PoolTablesContextProps>({
-  poolTables: [] as PoolTable[],
-  setPoolTables: ((tables: PoolTable[]) => null) as Dispatch<SetStateAction<PoolTable[]>>,
-  selectedTable: {} as PoolTable,
-  setSelectedTable: ((table: PoolTable) => null) as Dispatch<SetStateAction<PoolTable>>
-});
+
+const PoolTablesContext = createContext<PoolTablesContextProps>({} as PoolTablesContextProps);
 
 export const PoolTableContextWrapper: React.FC<React.PropsWithChildren> = ({ children, ...props }) => {
   const [poolTables, setPoolTables] = useState<PoolTable[]>([] as PoolTable[]);
@@ -28,7 +24,6 @@ export const PoolTableContextWrapper: React.FC<React.PropsWithChildren> = ({ chi
 
 export const usePoolTableContext = () => {
   const poolContext = useContext(PoolTablesContext);
-  const { selectedTable, } = poolContext;
-  return { setSelectedTable: poolContext?.selectedTable }
+  return poolContext;
 }
 

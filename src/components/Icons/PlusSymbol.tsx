@@ -1,6 +1,5 @@
 import { theme } from '@/styles/global';
 import React from 'react'
-import styled from 'styled-components'
  
 interface PlusSymbolProps {
   fill?: string;
