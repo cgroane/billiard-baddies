@@ -36,6 +36,8 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>) => {
             lat: userLocation?.latitude as number,
             lng: userLocation?.longitude as number
           },
+          controlSize: 5,
+          
         }
       );
       const markerWindow = new google.maps.InfoWindow()

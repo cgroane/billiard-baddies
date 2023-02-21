@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import PlusSymbol from '../Icons/PlusSymbol'
-import { FixedPositionBox, FlexBox, Span } from '../shared'
+import { FixedPositionBox, FlexBox, Span, StyledLink } from '../shared'
  
 interface BottomBarProps {
   tableData?: PoolTable
@@ -20,7 +20,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
   const handleExpand = () => {
     setExpand({ ...expand, full: !expand.full });
   }
-  // 
+  
   return (
     <BottomBarContainer expand={expand.full} display={'flex'} flexDirection="column" position="fixed" bottom={0} right={0} left={0} width="100%" height={'6rem'} >
       <FormatDiv position='absolute' bottom={0} width={'%15'} height={'100%'}/>
@@ -38,6 +38,12 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
           {poolContext.selectedTable?.cost && (<div>
             <Span fontSize='small' >${poolContext.selectedTable?.cost} {poolContext.selectedTable?.rate}</Span>
           </div>)}
+          {poolContext.selectedTable.name && <StyledLink href={{
+            query: { form: 'edit' },
+            pathname: '/AddTable'
+          }} >
+            <Span fontSize='medium' >Edit</Span>
+          </StyledLink>}
         </TableContent>
       </MiddleDiv>
       <AddTableIconContainer

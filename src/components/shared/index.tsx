@@ -1,6 +1,7 @@
 import { flex, FlexProps } from "@/styles/flex";
 import { fontColor, fontSize } from "@/styles/fontSizes";
 import { layout, LayoutProps, position, PositionProps } from "@/styles/layout";
+import Link from "next/link";
 import styled from "styled-components";
 
 
@@ -25,4 +26,8 @@ export const Header2 = styled.h2`
 `
 export const Paragraph = styled.p`
   ${fontSize};
+`
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
 `

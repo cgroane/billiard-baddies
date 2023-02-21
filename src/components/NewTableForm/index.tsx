@@ -1,5 +1,5 @@
 import { PoolTableAutoFillData, Address, Rates } from '@/types';
-import React, { useState, useRef, ChangeEvent, useMemo, FormEvent, useCallback } from 'react'
+import React, { useState, useRef, ChangeEvent, useMemo, FormEvent, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router';
 import { useGoogleAutocomplete } from '@/utils/handleGoogleScriptLoad';
@@ -9,23 +9,45 @@ import { usePoolTableContext } from '@/state/PoolTablesProvider';
 
 interface NewTableFormProps {}
 interface NewTableData extends PoolTableAutoFillData {
-  cost: number;
+  cost: string;
   rate: Rates;
 }
 const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState('')
-  const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, {} as NewTableData);
+  const poolContext = usePoolTableContext();
+  const [formState, setFormState] = useState<{ edit: boolean; error: string }>({ edit: false, error: '' })
+
+  
   const [manualFormData, setManualFormData] = useState<{ cost: string; rate: Rates }>({
     cost: '',
     rate: Rates.perGame
   });
-  const poolContext = usePoolTableContext();
 
-  const setFormValues = () => {
-    
-  }
+  const initialVals: NewTableData = useMemo(() => router.query.form === 'edit' ? {
+    ...poolContext.selectedTable,
+    address: {
+      ...poolContext.selectedTable.address
+    },
+  } : {} as NewTableData, [poolContext.selectedTable, router.query]);
+
+
+  const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, initialVals);
+
+  const updateFormState = useCallback((name: string, value: boolean | string) => {
+    setFormState({ ...formState, [name]: value })
+  }, [setFormState])
+
+  useEffect(() => {
+    if (router.query.form === 'edit') {
+      updateFormState('edit', true);
+      setManualFormData({
+        rate: poolContext.selectedTable.rate,
+        cost: poolContext.selectedTable.cost
+      })
+    }
+  }, [updateFormState, router]);
+
   const submit = async (event: FormEvent) => {
     event.preventDefault()
     const {cost, rate} = manualFormData;
@@ -41,7 +63,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     const JSONData = JSON.stringify(formData);
     const endpoint = '/api/AddTable';
     const options = {
-      method: 'POST',
+      method: !formState.edit ? 'POST' : 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -50,9 +72,17 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     try {
       const response = await fetch(endpoint, options)
       const result = await response.json()
-    router.push('/');
+      if (result.errorMessage) {
+        updateFormState('error', `${result.errorMessage}. Submit again to edit entry`);
+        updateFormState('edit', true);
+      } else {
+        router.push('/');
+        updateFormState('edit', false);
+        updateFormState('error', '');
+      }
     } catch (error) {
-      setError('Could not add this pool table');
+      console.log(error);
+      updateFormState('error', 'Could not add this pool table');
     }
   }
 
@@ -71,7 +101,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     for (i = 0; i < addressFields.length - 1; i ++) {
       if (addressFields[i] !== 'address2' && !poolTableData.address[addressFields[i] as keyof Address].length) {
         isEmpty = true;
-        setError('Fill out all required fields')
+        updateFormState('error', 'Fill out all required fields')
         break;
       } else {
         isEmpty = false
@@ -88,7 +118,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
       <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.city} name="city" placeholder='City' />
       <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.state} name="state" placeholder='State' />
       <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.address?.postalCode} name="postalCode" placeholder='Zip' />
-      <StyledInput onChange={handleCostAndRate} name="cost" placeholder='Cost' />
+      <StyledInput defaultValue={undefined} onChange={handleCostAndRate} value={manualFormData.cost} name="cost" placeholder='Cost' />
       <RadioGroup>
         <label>
           Hourly
@@ -99,8 +129,8 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
           <Radio onChange={handleCostAndRate} name="rate" id="pergame" type="radio" value={Rates.perGame} checked={manualFormData.rate === Rates.perGame}/>
         </label>
       </RadioGroup>
-      <SubmitButton type='submit' disabled={disable} >Add To Map</SubmitButton>
-      {error && <Span color={theme.colors.error} fontSize='medium' >{error}</Span>}
+      <SubmitButton type='submit' disabled={disable} >{!formState.edit ? 'Add To Map' : 'Edit Entry'}</SubmitButton>
+      {formState.error && <Span color={theme.colors.error} fontSize='medium' >{formState.error}</Span>}
   </StyledForm>
   )
 }
