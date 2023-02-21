@@ -36,7 +36,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
 
   const updateFormState = useCallback((name: string, value: boolean | string) => {
     setFormState({ ...formState, [name]: value })
-  }, [setFormState])
+  }, [setFormState, formState])
 
   useEffect(() => {
     if (router.query.form === 'edit') {
@@ -46,7 +46,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
         cost: poolContext.selectedTable.cost
       })
     }
-  }, [updateFormState, router]);
+  }, [updateFormState, router, poolContext.selectedTable.cost, poolContext.selectedTable.rate]);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault()
@@ -108,7 +108,8 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
       }
     }
     return isEmpty;
-  }, [poolTableData]);
+  }, [poolTableData, updateFormState]);
+
   const disable = useMemo(() => parseInt(manualFormData.cost as string) < 0 || validateAddress() ? true : false, [manualFormData.cost, validateAddress])
   return (
     <StyledForm onSubmit={submit} >
