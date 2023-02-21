@@ -14,7 +14,6 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
   const poolContext = usePoolTableContext();
-  console.log('trying new deployment', tables);
   useEffect(() => {
     poolContext.setPoolTables(tables)
   }, [poolContext.setPoolTables, tables]);
@@ -40,7 +39,8 @@ export const getStaticProps = async () => {
   return {
     props: {
       tables: JSON.parse(JSON.stringify(data))
-    }
+    },
+    revalidate: 5
   }
 }
 // const getStaticPaths = () => {
