@@ -14,6 +14,7 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
   const poolContext = usePoolTableContext();
+  console.log(tables);
   useEffect(() => {
     poolContext.setPoolTables(tables)
   }, [poolContext.setPoolTables, tables]);
