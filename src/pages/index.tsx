@@ -34,13 +34,12 @@ const Home: React.FC<HomeProps> = ({ tables }) => {
  * @returns this is for SSR pool table findings\
  * although it may be  better to just do it all client side for realtime updates
  */
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const data = await getPoolTables();
   return {
     props: {
       tables: JSON.parse(JSON.stringify(data))
-    },
-    revalidate: 5
+    }
   }
 }
 // const getStaticPaths = () => {
