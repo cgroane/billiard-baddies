@@ -11,7 +11,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>) => {
   })
   const [googleMap, setMap] = useState<google.maps.Map>({} as google.maps.Map)
   const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
-  const poolContext = usePoolTableContext();
+  const { poolTables, setSelectedTable } = usePoolTableContext();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((success) => setUserLocation({
@@ -41,7 +41,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>) => {
         }
       );
       const markerWindow = new google.maps.InfoWindow()
-      const markers = poolContext.poolTables.map((table) => {
+      const markers = poolTables.map((table) => {
 
         const newMarker = new google.maps.Marker({
           position: {
@@ -53,7 +53,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>) => {
           title: table.name,
         });
         newMarker.addListener('click', () => {
-          poolContext.setSelectedTable(table);
+          setSelectedTable(table);
           markerWindow.setContent(`<div style="color: black" >${table.name}</div>`);
           markerWindow.open({
             anchor: newMarker,
@@ -66,7 +66,7 @@ export const useGoogleMap = (divRef: RefObject<HTMLDivElement>) => {
       setMarkers(markers);
       setMap(map);
     }
-  }, [poolContext.poolTables, divRef, userLocation, poolContext.setSelectedTable]);
+  }, [poolTables, divRef, userLocation, setSelectedTable]);
 
   useEffect(() => {
     // if (userLocation) {
