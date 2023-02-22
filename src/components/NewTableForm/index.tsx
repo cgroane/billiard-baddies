@@ -34,9 +34,9 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
 
   const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, initialVals);
 
-  const updateFormState = (name: string, value: boolean | string) => {
+  const updateFormState = useCallback((name: string, value: boolean | string) => {
     setFormState({ ...formState, [name]: value })
-  }
+  }, [setFormState])
 
   useEffect(() => {
     if (router.query.form === 'edit') {
