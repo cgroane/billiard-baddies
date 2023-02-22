@@ -18,7 +18,6 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
   const poolContext = usePoolTableContext();
   const [formState, setFormState] = useState<{ edit: boolean; error: string }>({ edit: false, error: '' })
 
-  
   const [manualFormData, setManualFormData] = useState<{ cost: string; rate: Rates }>({
     cost: '',
     rate: Rates.perGame
@@ -35,18 +34,28 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
   const {poolTableData, handleChangeManual} = useGoogleAutocomplete(inputRef, initialVals);
 
   const updateFormState = useCallback((name: string, value: boolean | string) => {
-    setFormState({ ...formState, [name]: value })
-  }, [setFormState])
+    setFormState({ ...formState, [name]: value });
+    /**
+     * rerender issue because of formState
+     */
+  }, [setFormState, formState])
 
   useEffect(() => {
-    if (router.query.form === 'edit') {
+    if (router.query.form === 'edit' && formState.edit) {
       updateFormState('edit', true);
       setManualFormData({
         rate: poolContext.selectedTable.rate,
         cost: poolContext.selectedTable.cost
       })
     }
-  }, [updateFormState, router]);
+  }, [
+    formState,
+    updateFormState,
+    setManualFormData,
+    router,
+    poolContext.selectedTable.rate,
+    poolContext.selectedTable.cost
+  ]);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault()
@@ -86,13 +95,13 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     }
   }
 
-  const handleCostAndRate = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleCostAndRate = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
     setManualFormData({
       ...manualFormData,
       [name]: value
     })
-  };
+  }, [manualFormData, setManualFormData]);
 
   const validateAddress = useCallback(() => {
     const addressFields = Object.keys(poolTableData.address);
@@ -108,7 +117,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
       }
     }
     return isEmpty;
-  }, [poolTableData, updateFormState]);
+  }, [poolTableData.address, updateFormState]);
   const disable = useMemo(() => parseInt(manualFormData.cost as string) < 0 || validateAddress() ? true : false, [manualFormData.cost, validateAddress])
   return (
     <StyledForm onSubmit={submit} >
