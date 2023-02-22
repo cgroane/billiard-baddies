@@ -13,10 +13,10 @@ interface HomeProps {
   tables: PoolTable[]
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
-  const poolContext = usePoolTableContext();
+  const { setPoolTables } = usePoolTableContext();
   useEffect(() => {
-    poolContext.setPoolTables(tables)
-  }, [poolContext.setPoolTables, tables]);
+    setPoolTables(tables)
+  }, [setPoolTables, tables]);
   return (
     <Suspense fallback={<Loading />}>
       <Page>
