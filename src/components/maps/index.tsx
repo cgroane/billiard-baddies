@@ -10,7 +10,7 @@ const Map: React.FC<MapProps> = ({ }) => {
   useGoogleMap(mapRef);
 
   return (
-    <MapContainer height={'72%'} width={'100%'}>
+    <MapContainer height={'calc(100% - 8rem)'} width={'100%'}>
       <StyledMap ref={mapRef} />
     </MapContainer>
   )

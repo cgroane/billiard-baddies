@@ -41,14 +41,14 @@ export const theme = {
 }
 type ThemeType = typeof theme;
 
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<{ windowHeight: number }>`
   * {
     box-sixing: border-box;
     font-family: ${OxygenRegular.style.fontFamily};
   }
   body {
     margin: 0;
-    height: 100vh;
+    height: ${({ windowHeight }) => windowHeight}px;
     width: 100vw;
     background: black;
     color: white;

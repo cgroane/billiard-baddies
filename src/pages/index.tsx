@@ -1,35 +1,37 @@
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/maps";
 import Page from "@/components/page";
-import { useMongo } from "@/hooks/useMongo";
+import { LoadingStates, useLoadingState } from "@/hooks/useLoadingState";
 import { useAppContext } from "@/state/mongoProvider";
-import * as Realm from 'realm-web';
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/types";
 import { Suspense, useEffect } from "react";
-import { getPoolTables } from "./api/tables";
-import Loading from "./loading";
 
 interface HomeProps {
   tables: PoolTable[]
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
+  const { loading, setLoading } = useLoadingState();
   const { setPoolTables } = usePoolTableContext();
   const mongo = useAppContext()
   useEffect(() => {
     if (mongo && mongo?.currentUser) {
+      setLoading(LoadingStates.LOADING);
       const db = mongo?.currentUser?.mongoClient("mongodb-atlas");
       db.db("pool-tables").collection("pool-taables").find().then((response) => {
+        setLoading(LoadingStates.IDLE);
         setPoolTables(response)
       });
     }
   }, [setPoolTables, mongo]);
 
   return (
-    <Page>
-      <Map />
-      <BottomBar />
-    </Page>
+    <Suspense fallback={<>Loading</>} >
+      <Page>
+        <Map />
+        <BottomBar />
+      </Page>
+    </Suspense>
   )
 }
 

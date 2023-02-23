@@ -4,6 +4,7 @@ import { PoolTable } from '@/types'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
+import Arrow from '../Icons/Arrow'
 import PlusSymbol from '../Icons/PlusSymbol'
 import { FixedPositionBox, FlexBox, Span, StyledLink } from '../shared'
  
@@ -22,8 +23,8 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
   }
   
   return (
-    <BottomBarContainer expand={expand.full} display={'flex'} flexDirection="column" position="fixed" bottom={0} right={0} left={0} width="100%" height={'6rem'} >
-      <FormatDiv position='absolute' bottom={0} width={'%15'} height={'100%'}/>
+    <BottomBarContainer expand={expand.full} position="relative" display={'flex'} flexDirection="column" width="100%"  >
+      <FormatDiv position='absolute' bottom={0} width={'15%'} height={'100%'}/>
       <MiddleDiv height={"100%"} width="100%" flexGrow={1} display="flex" flexDirection="column" alignItems="center" >
         <div
           onClick={handleExpand} 
@@ -31,7 +32,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
           // onTouchEnd={onTouchEnd}
           // onTouchStart={onArrowTouch} 
         >
-        {/* <Arrow /> */}
+        <Arrow />
         </div>
         <TableContent>
           <Span fontSize='medium' >{poolContext.selectedTable?.name}</Span>
@@ -55,7 +56,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
         right={0}
         top={0}
         width={'15%'}
-        height={'100%'}
+        height={'8rem'}
         expand={expand.full}
       >
       <Link href={'/AddTable'} >
@@ -66,24 +67,22 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
   )
 }
 const expandBar = css`
-  height: 100%;
-  transform: translateY(100%);
-  top: 0;
-  position: fixed;
+  transform: translateY(calc(-100% + 8rem));
 `
 const TableContent = styled(FlexBox)`
   padding: 0.5rem;
   text-align: center;
 `;
 const BottomBarContainer = styled(FixedPositionBox)<{ expand?: boolean }>`
-  /* background: ${props => props.theme.colors.black};
   transition: transform 0.5s linear;
+  background: ${props => props.theme.colors.black};
   overflow-y: hidden;
-  ${({expand}) => expand ? expandBar : ''}; */
+  height: 100%;
+  ${({expand}) => expand ? expandBar : ''};
 `;
 const AddTableIconContainer = styled(FixedPositionBox)<{ expand?: boolean }>`
-  /* transition: opacity 0.3s linear;
-  ${({expand}) => expand ? 'opacity: 0' : ''}; */
+  transition: opacity 0.3s linear;
+  ${({expand}) => expand ? 'opacity: 0' : ''};
 `;
 const MiddleDiv = styled(FlexBox)`
 `;
