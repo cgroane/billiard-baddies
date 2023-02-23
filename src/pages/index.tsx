@@ -3,7 +3,7 @@ import Map from "@/components/maps";
 import Page from "@/components/page";
 import { useMongo } from "@/hooks/useMongo";
 import { useAppContext } from "@/state/mongoProvider";
-import Realm from 'realm-web';
+import * as Realm from 'realm-web';
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/types";
 import { Suspense, useEffect } from "react";
@@ -17,20 +17,23 @@ const Home: React.FC<HomeProps> = ({ tables }) => {
   const { setPoolTables } = usePoolTableContext();
   const mongo = useMongo()
   useEffect(() => {
+    if (mongo && !mongo?.currentUser) {
+      const user = Realm.Credentials.apiKey(process.env.NEXT_PUBLIC_REALM_API_KEY as string);
+      mongo.logIn(user);
+    }
     if (mongo && mongo?.currentUser) {
       const db = mongo?.currentUser?.mongoClient("mongodb-atlas");
       db.db("pool-tables").collection("pool-taables").find().then((response) => {
-        console.log(response)
         setPoolTables(response)
       });
     }
   }, [setPoolTables, mongo]);
 
   return (
-      <Page>
-        <Map />
-        <BottomBar />
-      </Page>
+    <Page>
+      <Map />
+      <BottomBar />
+    </Page>
   )
 }
 

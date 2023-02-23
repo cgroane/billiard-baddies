@@ -2,7 +2,7 @@ import { useMongo } from "@/hooks/useMongo";
 import React, { createContext, useContext } from "react";
 import * as Realm from 'realm-web';
 interface MongoContextProps {
-  db: Realm.App;
+  db: Realm.App | null
 }
 
 const MongoContext = createContext<MongoContextProps>({} as MongoContextProps);
