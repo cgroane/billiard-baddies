@@ -15,12 +15,8 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
   const { setPoolTables } = usePoolTableContext();
-  const mongo = useMongo()
+  const mongo = useAppContext()
   useEffect(() => {
-    if (mongo && !mongo?.currentUser) {
-      const user = Realm.Credentials.apiKey(process.env.NEXT_PUBLIC_REALM_API_KEY as string);
-      mongo.logIn(user);
-    }
     if (mongo && mongo?.currentUser) {
       const db = mongo?.currentUser?.mongoClient("mongodb-atlas");
       db.db("pool-tables").collection("pool-taables").find().then((response) => {

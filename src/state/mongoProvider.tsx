@@ -9,6 +9,10 @@ const MongoContext = createContext<MongoContextProps>({} as MongoContextProps);
 
 export const AppWrapper: React.FC<React.PropsWithChildren> = ({ children, ...props }) => {
   const db = useMongo();
+  if (db && !db?.currentUser) {
+    const user = Realm.Credentials.apiKey(process.env.NEXT_PUBLIC_REALM_API_KEY as string);
+    db.logIn(user);
+  }
   return (
     <MongoContext.Provider value={{ db }} {...props}>
       {children}
