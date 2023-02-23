@@ -27,12 +27,10 @@ const Home: React.FC<HomeProps> = ({ tables }) => {
   }, [setPoolTables, mongo]);
 
   return (
-    <Suspense fallback={<Loading />}>
       <Page>
         <Map />
         <BottomBar />
       </Page>
-    </Suspense>
   )
 }
 
