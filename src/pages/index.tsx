@@ -19,8 +19,7 @@ const Home: React.FC<HomeProps> = ({ tables }) => {
   useEffect(() => {
     if (mongo && mongo?.currentUser) {
       const db = mongo?.currentUser?.mongoClient("mongodb-atlas");
-      const tables = db.db("pool-tables").collection("pool-taables");
-      tables.find().then((response) => {
+      db.db("pool-tables").collection("pool-taables").find().then((response) => {
         console.log(response)
         setPoolTables(response)
       });
