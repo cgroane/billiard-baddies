@@ -6,13 +6,14 @@ import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import Arrow from '../Icons/Arrow'
 import PlusSymbol from '../Icons/PlusSymbol'
+import SelectedTableContent from '../SelectedTableContent'
 import { FixedPositionBox, FlexBox, Span, StyledLink } from '../shared'
  
 interface BottomBarProps {
   tableData?: PoolTable
 }
 const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
-  const poolContext = usePoolTableContext();
+  const {selectedTable} = usePoolTableContext();
   
   const [expand, setExpand] = useState<{ full: boolean, initial: boolean }>({
     full: false, initial: false
@@ -26,25 +27,32 @@ const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
     <BottomBarContainer expand={expand.full} position="relative" display={'flex'} flexDirection="column" width="100%"  >
       <FormatDiv position='absolute' bottom={0} width={'15%'} height={'100%'}/>
       <MiddleDiv height={"100%"} width="100%" flexGrow={1} display="flex" flexDirection="column" alignItems="center" >
-        <div
+        {selectedTable?.name && <div
           onClick={handleExpand} 
           // onTouchMove={onArrowTouchMove}
           // onTouchEnd={onTouchEnd}
           // onTouchStart={onArrowTouch} 
         >
         <Arrow />
-        </div>
+        </div>}
         <TableContent>
-          <Span fontSize='medium' >{poolContext.selectedTable?.name}</Span>
-          {poolContext.selectedTable?.cost && (<div>
-            <Span fontSize='small' >${poolContext.selectedTable?.cost} {poolContext.selectedTable?.rate}</Span>
-          </div>)}
-          {poolContext.selectedTable.name && <StyledLink href={{
+          {selectedTable?.cost && !expand.full && (
+            <>
+              <Span fontSize='medium' >{selectedTable?.name}</Span>
+              <div>
+                <Span fontSize='small' >${selectedTable?.cost} {selectedTable?.rate}</Span>
+              </div>
+            </>
+          )}
+          {selectedTable.name && <StyledLink href={{
             query: { form: 'edit' },
             pathname: '/AddTable'
           }} >
             <Span fontSize='medium' >Edit</Span>
           </StyledLink>}
+          {
+            selectedTable?.cost && expand.full && <SelectedTableContent poolTable={selectedTable} />
+          }
         </TableContent>
       </MiddleDiv>
       <AddTableIconContainer

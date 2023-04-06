@@ -11,7 +11,8 @@ export interface PoolTableAutoFillData extends google.maps.places.PlaceResult {
   coordinates: {
     lat: number;
     lng: number;
-  }
+  },
+  photoURLs: string[];
 }
 
 export interface PoolTable extends PoolTableAutoFillData {

@@ -67,8 +67,7 @@ export async function handlePlaceSelect(changeFunction: AutoCompleteChangeFuncti
     };
 
     const poolTabledata: google.maps.places.PlaceResult = {
-      ...placeObject
-
+      ...placeObject,
     }
     changeFunction({
       address: {...updateVals},
@@ -76,7 +75,8 @@ export async function handlePlaceSelect(changeFunction: AutoCompleteChangeFuncti
         lat: poolTabledata.geometry?.location?.lat() as number,
         lng: poolTabledata.geometry?.location?.lng() as number,
     },
-    ...poolTabledata
+    ...poolTabledata,
+    photoURLs: poolTabledata.photos?.map((photo) => photo.getUrl()) as string[]
   });
   }
 }

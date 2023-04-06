@@ -42,14 +42,13 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
 
   useEffect(() => {
     if (router.query.form === 'edit' && formState.edit) {
-      updateFormState('edit', true);
       setManualFormData({
         rate: poolContext.selectedTable.rate,
         cost: poolContext.selectedTable.cost
       })
     }
   }, [
-    formState,
+    formState.edit,
     updateFormState,
     setManualFormData,
     router,
@@ -57,7 +56,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     poolContext.selectedTable.cost
   ]);
 
-  const submit = async (event: FormEvent) => {
+  const submit = useCallback( async (event: FormEvent) => {
     event.preventDefault()
     const {cost, rate} = manualFormData;
     const formData = {
@@ -65,9 +64,10 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
       cost,
       rate,
       coordinates: {
-        lat: poolTableData.geometry?.location?.lat(),
-        lng: poolTableData.geometry?.location?.lng()
-      }
+        lat: poolTableData.coordinates.lat ? poolTableData.coordinates.lat : poolTableData.geometry?.location?.lat(),
+        lng:poolTableData.coordinates.lng ? poolTableData.coordinates.lng : poolTableData.geometry?.location?.lng()
+      },
+      photoURLs: poolTableData.photoURLs.length ? [...poolTableData.photoURLs] : poolTableData.photos?.map((photo) => photo.getUrl())
     };
     const JSONData = JSON.stringify(formData);
     const endpoint = '/api/AddTable';
@@ -85,15 +85,15 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
         updateFormState('error', `${result.errorMessage}. Submit again to edit entry`);
         updateFormState('edit', true);
       } else {
-        router.push('/');
         updateFormState('edit', false);
         updateFormState('error', '');
+        router.push('/');
       }
     } catch (error) {
       console.log(error);
       updateFormState('error', 'Could not add this pool table');
     }
-  }
+  }, [manualFormData, updateFormState, poolTableData, formState.edit, router])
 
   const handleCostAndRate = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -118,7 +118,9 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
     }
     return isEmpty;
   }, [poolTableData.address, updateFormState]);
+
   const disable = useMemo(() => parseInt(manualFormData.cost as string) < 0 || validateAddress() ? true : false, [manualFormData.cost, validateAddress])
+
   return (
     <StyledForm onSubmit={submit} >
       <StyledInput defaultValue={undefined} onChange={handleChangeManual} value={poolTableData?.name} name="name" ref={inputRef} placeholder='Name' />

@@ -18,7 +18,7 @@ const Home: React.FC<HomeProps> = ({ tables }) => {
     if (mongo && mongo?.currentUser) {
       setLoading(LoadingStates.LOADING);
       const db = mongo?.currentUser?.mongoClient("mongodb-atlas");
-      db.db("pool-tables").collection("pool-taables").find().then((response) => {
+      db.db("pool-tables").collection("tables").find().then((response) => {
         setLoading(LoadingStates.IDLE);
         setPoolTables(response)
       });
