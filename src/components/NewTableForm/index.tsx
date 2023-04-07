@@ -149,6 +149,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
 }
  
 const StyledInput = styled.input`
+font-size: 1rem;
   border: 0.1563rem solid ${props => props.theme.colors.white};
   border-right: none;
   border-left: none;
