@@ -69,7 +69,7 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
         lat: poolTableData.coordinates.lat ? poolTableData.coordinates.lat : poolTableData.geometry?.location?.lat(),
         lng:poolTableData.coordinates.lng ? poolTableData.coordinates.lng : poolTableData.geometry?.location?.lng()
       },
-      // photoURLs: [...poolTableData.photoURLs]
+      photoURLs: poolTableData.photos?.map((photo) => photo.getUrl())
     };
     const JSONData = JSON.stringify(formData);
     const endpoint =  '/api/AddTable';
