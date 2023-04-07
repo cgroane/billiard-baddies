@@ -12,7 +12,7 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
   const { loading, setLoading } = useLoadingState();
-  const { setPoolTables } = usePoolTableContext();
+  const { setPoolTables, refreshTableData } = usePoolTableContext();
   const mongo = useAppContext()
   useEffect(() => {
     if (mongo && mongo?.currentUser) {

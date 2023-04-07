@@ -1,4 +1,4 @@
-import { PoolTableAutoFillData, Address, Rates } from '@/types';
+import { PoolTableAutoFillData, Address, Rates, PoolTable } from '@/types';
 import React, { useState, useRef, ChangeEvent, useMemo, FormEvent, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router';

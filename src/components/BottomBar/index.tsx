@@ -2,7 +2,7 @@
 import { usePoolTableContext } from '@/state/PoolTablesProvider'
 import { PoolTable } from '@/types'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Arrow from '../Icons/Arrow'
 import PlusSymbol from '../Icons/PlusSymbol'
@@ -13,7 +13,10 @@ interface BottomBarProps {
   tableData?: PoolTable
 }
 const BottomBar: React.FC<BottomBarProps> = ({ ...props }: BottomBarProps) => {
-  const {selectedTable} = usePoolTableContext();
+  const {selectedTable, refreshTableData} = usePoolTableContext();
+  useEffect(() => {
+    refreshTableData();
+  }, [refreshTableData]);
   
   const [expand, setExpand] = useState<{ full: boolean, initial: boolean }>({
     full: false, initial: false
