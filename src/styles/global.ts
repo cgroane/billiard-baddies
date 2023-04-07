@@ -52,6 +52,11 @@ export const GlobalStyles = createGlobalStyle<{ windowHeight: number }>`
     width: 100vw;
     background: black;
     color: white;
+    input[type='text'],
+    input[type='number'],
+    textarea {
+      font-size: 16px;
+    }
   }
   #__next {
     width: 100%;
@@ -62,7 +67,6 @@ export const GlobalStyles = createGlobalStyle<{ windowHeight: number }>`
     border: none;
     border-radius: 0.25rem;
     margin: 2px 2px 0 2px;
-
   }
 `
 export type Scale<Type, Properties = Record<string, unknown>> = Array<Type> & Properties;
