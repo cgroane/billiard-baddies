@@ -46,6 +46,8 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
         rate: poolContext.selectedTable.rate,
         cost: poolContext.selectedTable.cost
       })
+    } else if (router.query.form === 'edit') {
+      updateFormState('edit', true);
     }
   }, [
     formState.edit,
@@ -67,10 +69,10 @@ const NewTableForm: React.FC<NewTableFormProps> = ({}: NewTableFormProps) => {
         lat: poolTableData.coordinates.lat ? poolTableData.coordinates.lat : poolTableData.geometry?.location?.lat(),
         lng:poolTableData.coordinates.lng ? poolTableData.coordinates.lng : poolTableData.geometry?.location?.lng()
       },
-      photoURLs: poolTableData.photoURLs.length ? [...poolTableData.photoURLs] : poolTableData.photos?.map((photo) => photo.getUrl())
+      // photoURLs: [...poolTableData.photoURLs]
     };
     const JSONData = JSON.stringify(formData);
-    const endpoint = '/api/AddTable';
+    const endpoint =  '/api/AddTable';
     const options = {
       method: !formState.edit ? 'POST' : 'PUT',
       headers: {
