@@ -5,6 +5,7 @@ import { LoadingStates, useLoadingState } from "@/hooks/useLoadingState";
 import { useAppContext } from "@/state/mongoProvider";
 import { usePoolTableContext } from "@/state/PoolTablesProvider";
 import { PoolTable } from "@/types";
+import axios from "axios";
 import { Suspense, useEffect } from "react";
 
 interface HomeProps {
@@ -12,18 +13,16 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({ tables }) => {
   const { loading, setLoading } = useLoadingState();
-  const { setPoolTables, refreshTableData } = usePoolTableContext();
-  const mongo = useAppContext()
+  const { setPoolTables, refreshTableData, poolTables } = usePoolTableContext();
   useEffect(() => {
-    if (mongo && mongo?.currentUser) {
-      setLoading(LoadingStates.LOADING);
-      const db = mongo?.currentUser?.mongoClient("mongodb-atlas");
-      db.db("pool-tables").collection('tables').find().then((response) => {
-        setLoading(LoadingStates.IDLE);
-        setPoolTables(response)
-      });
+    const getTables = async () => {
+      const response = await axios.get('/api/tables');
+      setPoolTables(response.data.data);
+    };
+    if (!poolTables.length) {
+      getTables();
     }
-  }, [setPoolTables, mongo]);
+  }, [setPoolTables, poolTables.length]);
 
   return (
     <Suspense fallback={<>Loading</>} >

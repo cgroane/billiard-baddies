@@ -1,12 +1,18 @@
-import * as Realm from 'realm-web';
 import {  useState, useEffect } from 'react';
+import clientPromise from '@/lib/mongo';
+import { MongoClient } from 'mongodb';
 
 export const useMongo = () => {
-  const [db, setDb] = useState<Realm.App | null>(null);
+  const [db, setDb] = useState<MongoClient | null>(null);
 
   useEffect(() => {
-    setDb(Realm.getApp(process.env.NEXT_PUBLIC_MONGO_APP_ID as string));
-  }, []);
+    const getDb = async () => {
+      if (!db) {
+        const client = await clientPromise;
+        setDb(client)
+      }
+    }
+  }, [db, setDb]);
 
   return db;
 }
